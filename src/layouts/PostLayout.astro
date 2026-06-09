@@ -1,0 +1,44 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  pubDate: Date;
+  tags?: string[];
+}
+
+const { title, description, pubDate, tags = [] } = Astro.props;
+
+const formattedDate = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <article>
+    <header class="mb-10">
+      <h1 class="text-3xl font-bold tracking-tight mb-3">{title}</h1>
+      <div class="flex items-center gap-4 text-sm text-gray-400">
+        <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+        {tags.length > 0 && (
+          <div class="flex gap-2">
+            {tags.map((tag) => (
+              <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">{tag}</span>
+            ))}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <div class="prose prose-gray max-w-none prose-headings:font-semibold prose-a:text-gray-900 prose-a:underline prose-a:underline-offset-2">
+      <slot />
+    </div>
+  </article>
+
+  <div class="mt-12 pt-8 border-t border-gray-100">
+    <a href="/" class="text-sm text-gray-400 hover:text-gray-900 transition-colors">← all posts</a>
+  </div>
+</BaseLayout>
