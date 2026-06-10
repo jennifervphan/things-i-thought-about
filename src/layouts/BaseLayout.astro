@@ -18,7 +18,7 @@ const { title, description = "A blog about things I thought about." } = Astro.pr
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;1,14..32,400&display=swap" rel="stylesheet" />
     <title>{title}</title>
-    <style>
+    <style is:global>
       *, *::before, *::after { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
       :root, [data-theme="dark"] {
@@ -27,27 +27,29 @@ const { title, description = "A blog about things I thought about." } = Astro.pr
         --border:            rgba(255,255,255,0.07);
         --border-subtle:     rgba(255,255,255,0.055);
         --border-faint:      rgba(255,255,255,0.04);
-        --text-brand:        #e2e2e2;
-        --text-primary:      #e8e8e8;
-        --text-body:         #a0a0a0;
-        --text-secondary:    #d4d4d4;
-        --text-muted:        #555;
-        --text-faint:        #333;
-        --text-desc:         #4d4d4d;
-        --text-tag:          #3a3a3a;
-        --text-footer:       #2e2e2e;
-        --prose-body:        #a0a0a0;
-        --prose-headings:    #e8e8e8;
-        --prose-links:       #d4d4d4;
-        --prose-bold:        #e2e2e2;
-        --prose-quotes:      #777;
-        --prose-quote-border:rgba(255,255,255,0.1);
-        --prose-code-bg:     #1c1c1c;
+        --text-brand:        #e8e8e8;
+        --text-primary:      #ececec;
+        --text-body:         #c2c2c2;
+        --text-secondary:    #dedede;
+        --text-muted:        #888;
+        --text-faint:        #666;
+        --text-desc:         #888;
+        --text-tag:          #666;
+        --text-footer:       #555;
+        --prose-body:        #c2c2c2;
+        --prose-headings:    #ececec;
+        --prose-links:       #dedede;
+        --prose-bold:        #e8e8e8;
+        --prose-quotes:      #999;
+        --prose-quote-border:rgba(255,255,255,0.15);
+        --prose-code-bg:     #1e1e1e;
         --prose-pre-bg:      #0d0d0d;
-        --prose-pre-border:  rgba(255,255,255,0.06);
-        --prose-hr:          rgba(255,255,255,0.06);
-        --prose-bullets:     #3a3a3a;
-        --prose-counters:    #555;
+        --prose-pre-border:  rgba(255,255,255,0.08);
+        --prose-hr:          rgba(255,255,255,0.08);
+        --prose-bullets:     #666;
+        --prose-counters:    #777;
+        --tag-bg:            rgba(255,255,255,0.07);
+        --tag-border:        rgba(255,255,255,0.1);
         --toggle-icon:       "☀";
       }
 
@@ -78,6 +80,8 @@ const { title, description = "A blog about things I thought about." } = Astro.pr
         --prose-hr:          rgba(0,0,0,0.08);
         --prose-bullets:     #bbb;
         --prose-counters:    #999;
+        --tag-bg:            rgba(0,0,0,0.07);
+        --tag-border:        rgba(0,0,0,0.12);
         --toggle-icon:       "☾";
       }
 
