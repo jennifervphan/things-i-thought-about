@@ -5,40 +5,90 @@ interface Props {
   title: string;
   description?: string;
   pubDate: Date;
+  updatedDate?: Date;
   tags?: string[];
 }
 
-const { title, description, pubDate, tags = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, tags = [] } = Astro.props;
 
-const formattedDate = pubDate.toLocaleDateString('en-US', {
+const formattedPubDate = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
 });
 ---
 
+<style>
+  .post-date {
+    font-size: 11px;
+    color: var(--text-tag);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-variant-numeric: tabular-nums;
+  }
+  .post-date-updated {
+    font-size: 11px;
+    color: var(--text-tag);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-variant-numeric: tabular-nums;
+    margin-top: 0.3rem;
+  }
+  .post-date-updated span {
+    opacity: 0.6;
+    margin-right: 0.35em;
+  }
+  .post-title {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin: 0.6rem 0 0;
+  }
+  .post-tags { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+  .post-tag { font-size: 11px; color: var(--text-tag); text-transform: uppercase; letter-spacing: 0.07em; }
+  .back-link { font-size: 13px; color: var(--text-muted); text-decoration: none; }
+  .back-link:hover { color: var(--text-primary); }
+
+  @media (min-width: 640px) {
+    .post-date { font-size: 12px; }
+    .post-date-updated { font-size: 12px; }
+    .post-title { font-size: 32px; }
+    .back-link { font-size: 14px; }
+  }
+</style>
+
 <BaseLayout title={title} description={description}>
   <article>
-    <header class="mb-10">
-      <h1 class="text-3xl font-bold tracking-tight mb-3">{title}</h1>
-      <div class="flex items-center gap-4 text-sm text-gray-400">
-        <time datetime={pubDate.toISOString()}>{formattedDate}</time>
-        {tags.length > 0 && (
-          <div class="flex gap-2">
-            {tags.map((tag) => (
-              <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">{tag}</span>
-            ))}
-          </div>
-        )}
-      </div>
+    <header style="margin-bottom: 2.5rem;">
+      <time class="post-date" datetime={pubDate.toISOString()}>{formattedPubDate}</time>
+      {updatedDate && (
+        <p class="post-date-updated">
+          <span>updated</span>
+          <time datetime={updatedDate.toISOString()}>{formattedUpdatedDate}</time>
+        </p>
+      )}
+      <h1 class="post-title">{title}</h1>
+      {tags.length > 0 && (
+        <div class="post-tags">
+          {tags.map((tag) => <span class="post-tag">{tag}</span>)}
+        </div>
+      )}
     </header>
 
-    <div class="prose prose-gray max-w-none prose-headings:font-semibold prose-a:text-gray-900 prose-a:underline prose-a:underline-offset-2">
+    <div class="prose prose-themed max-w-none" style="font-size: 16px; line-height: 1.85;">
       <slot />
     </div>
   </article>
 
-  <div class="mt-12 pt-8 border-t border-gray-100">
-    <a href="/" class="text-sm text-gray-400 hover:text-gray-900 transition-colors">← all posts</a>
+  <div class="divider" style="margin-top: 3.5rem; padding-top: 2rem;">
+    <a href="/" class="back-link">← all posts</a>
   </div>
 </BaseLayout>

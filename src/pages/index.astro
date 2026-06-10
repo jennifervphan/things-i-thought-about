@@ -9,10 +9,15 @@ const sortedPosts = posts
     title: post.frontmatter.title,
     description: post.frontmatter.description,
     pubDate: new Date(post.frontmatter.pubDate),
+    updatedDate: post.frontmatter.updatedDate ? new Date(post.frontmatter.updatedDate) : undefined,
     tags: post.frontmatter.tags ?? [],
     slug: post.file.split('/').pop()?.replace('.md', '') ?? '',
   }))
-  .sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
+  .sort((a, b) => {
+    const aDate = a.updatedDate ?? a.pubDate;
+    const bDate = b.updatedDate ?? b.pubDate;
+    return bDate.getTime() - aDate.getTime();
+  });
 ---
 
 <BaseLayout title="things i thought about">
@@ -22,6 +27,7 @@ const sortedPosts = posts
         title={post.title}
         description={post.description}
         pubDate={post.pubDate}
+        updatedDate={post.updatedDate}
         slug={post.slug}
         tags={post.tags}
       />

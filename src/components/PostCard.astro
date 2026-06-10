@@ -3,40 +3,67 @@ interface Props {
   title: string;
   description?: string;
   pubDate: Date;
+  updatedDate?: Date;
   slug: string;
   tags?: string[];
 }
 
-const { title, description, pubDate, slug, tags = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, slug, tags = [] } = Astro.props;
 
-const formattedDate = pubDate.toLocaleDateString('en-US', {
+const displayDate = updatedDate ?? pubDate;
+const formattedDate = displayDate.toLocaleDateString('en-US', {
   year: 'numeric',
-  month: 'long',
+  month: 'short',
   day: 'numeric',
 });
 ---
 
-<article class="group py-6 border-b border-gray-100 last:border-0">
-  <a href={`/posts/${slug}`} class="block">
-    <div class="flex items-start justify-between gap-4">
-      <div>
-        <h2 class="text-lg font-medium group-hover:text-gray-500 transition-colors mb-1">
-          {title}
-        </h2>
-        {description && (
-          <p class="text-sm text-gray-500 leading-relaxed">{description}</p>
-        )}
+<style>
+  .post-card { padding: 1.75rem 0; border-bottom: 1px solid var(--border-faint); }
+  .post-card:last-child { border-bottom: none; }
+  .post-card a { text-decoration: none; display: block; }
+  .post-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; }
+  .post-meta { min-width: 0; }
+  .post-title {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+    margin: 0 0 0.4rem;
+    color: var(--text-secondary);
+    transition: color 0.15s ease;
+  }
+  .post-card a:hover .post-title { color: var(--text-muted); }
+  .post-desc { font-size: 14px; color: var(--text-desc); line-height: 1.65; margin: 0; }
+  .post-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+  .post-tag { font-size: 11px; color: var(--text-tag); text-transform: uppercase; letter-spacing: 0.06em; }
+  .post-date-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
+  .post-date { font-size: 12px; color: var(--text-faint); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .post-date-label { font-size: 10px; color: var(--text-tag); text-transform: uppercase; letter-spacing: 0.07em; white-space: nowrap; }
+
+  @media (min-width: 640px) {
+    .post-title { font-size: 18px; }
+    .post-desc { font-size: 15px; }
+    .post-date { font-size: 13px; }
+  }
+</style>
+
+<article class="post-card">
+  <a href={`/posts/${slug}`}>
+    <div class="post-row">
+      <div class="post-meta">
+        <h2 class="post-title">{title}</h2>
+        {description && <p class="post-desc">{description}</p>}
         {tags.length > 0 && (
-          <div class="flex gap-2 mt-2">
-            {tags.map((tag) => (
-              <span class="bg-gray-100 text-gray-500 px-2 py-0.5 rounded text-xs">{tag}</span>
-            ))}
+          <div class="post-tags">
+            {tags.map((tag) => <span class="post-tag">{tag}</span>)}
           </div>
         )}
       </div>
-      <time class="text-sm text-gray-400 whitespace-nowrap shrink-0" datetime={pubDate.toISOString()}>
-        {formattedDate}
-      </time>
+      <div class="post-date-wrap">
+        {updatedDate && <span class="post-date-label">upd</span>}
+        <time class="post-date" datetime={displayDate.toISOString()}>{formattedDate}</time>
+      </div>
     </div>
   </a>
 </article>

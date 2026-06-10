@@ -8,35 +8,203 @@ const { title, description = "A blog about things I thought about." } = Astro.pr
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;1,14..32,400&display=swap" rel="stylesheet" />
     <title>{title}</title>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+      :root, [data-theme="dark"] {
+        --bg-outer:          #0d0d0d;
+        --bg-card:           #131313;
+        --border:            rgba(255,255,255,0.07);
+        --border-subtle:     rgba(255,255,255,0.055);
+        --border-faint:      rgba(255,255,255,0.04);
+        --text-brand:        #e2e2e2;
+        --text-primary:      #e8e8e8;
+        --text-body:         #a0a0a0;
+        --text-secondary:    #d4d4d4;
+        --text-muted:        #555;
+        --text-faint:        #333;
+        --text-desc:         #4d4d4d;
+        --text-tag:          #3a3a3a;
+        --text-footer:       #2e2e2e;
+        --prose-body:        #a0a0a0;
+        --prose-headings:    #e8e8e8;
+        --prose-links:       #d4d4d4;
+        --prose-bold:        #e2e2e2;
+        --prose-quotes:      #777;
+        --prose-quote-border:rgba(255,255,255,0.1);
+        --prose-code-bg:     #1c1c1c;
+        --prose-pre-bg:      #0d0d0d;
+        --prose-pre-border:  rgba(255,255,255,0.06);
+        --prose-hr:          rgba(255,255,255,0.06);
+        --prose-bullets:     #3a3a3a;
+        --prose-counters:    #555;
+        --toggle-icon:       "☀";
+      }
+
+      [data-theme="light"] {
+        --bg-outer:          #d8d8d8;
+        --bg-card:           #efefef;
+        --border:            rgba(0,0,0,0.09);
+        --border-subtle:     rgba(0,0,0,0.07);
+        --border-faint:      rgba(0,0,0,0.05);
+        --text-brand:        #1a1a1a;
+        --text-primary:      #111;
+        --text-body:         #444;
+        --text-secondary:    #222;
+        --text-muted:        #888;
+        --text-faint:        #b0b0b0;
+        --text-desc:         #666;
+        --text-tag:          #aaa;
+        --text-footer:       #b8b8b8;
+        --prose-body:        #444;
+        --prose-headings:    #111;
+        --prose-links:       #1a1a1a;
+        --prose-bold:        #111;
+        --prose-quotes:      #666;
+        --prose-quote-border:rgba(0,0,0,0.15);
+        --prose-code-bg:     #e2e2e2;
+        --prose-pre-bg:      #e0e0e0;
+        --prose-pre-border:  rgba(0,0,0,0.08);
+        --prose-hr:          rgba(0,0,0,0.08);
+        --prose-bullets:     #bbb;
+        --prose-counters:    #999;
+        --toggle-icon:       "☾";
+      }
+
+      html { background: var(--bg-outer); transition: background 0.2s ease; }
+      body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: var(--bg-outer); color: var(--text-body); transition: background 0.2s ease, color 0.2s ease; }
+
+      .site-card { background: var(--bg-card); border: 1px solid var(--border); transition: background 0.2s ease, border-color 0.2s ease; }
+      .site-header-border { border-bottom: 1px solid var(--border-subtle); }
+      .site-footer-border { border-top: 1px solid var(--border-subtle); }
+      .divider { border-top: 1px solid var(--border-faint); }
+
+      a.brand { color: var(--text-brand); }
+      a.brand:hover { color: var(--text-muted); }
+      a.nav-link { color: var(--text-muted); }
+      a.nav-link:hover { color: var(--text-brand); }
+      .footer-text { color: var(--text-footer); }
+
+      .theme-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-muted);
+        font-size: 14px;
+        padding: 2px 4px;
+        line-height: 1;
+        transition: color 0.2s ease;
+        display: flex;
+        align-items: center;
+      }
+      .theme-toggle:hover { color: var(--text-brand); }
+
+      /* Prose overrides via CSS variables */
+      .prose-themed {
+        --tw-prose-body:         var(--prose-body);
+        --tw-prose-headings:     var(--prose-headings);
+        --tw-prose-links:        var(--prose-links);
+        --tw-prose-bold:         var(--prose-bold);
+        --tw-prose-quotes:       var(--prose-quotes);
+        --tw-prose-quote-borders:var(--prose-quote-border);
+        --tw-prose-hr:           var(--prose-hr);
+        --tw-prose-bullets:      var(--prose-bullets);
+        --tw-prose-counters:     var(--prose-counters);
+        --tw-prose-code:         var(--prose-headings);
+        --tw-prose-pre-code:     #ccc;
+        --tw-prose-pre-bg:       var(--prose-pre-bg);
+      }
+      .prose-themed code { background: var(--prose-code-bg) !important; }
+      .prose-themed pre { border: 1px solid var(--prose-pre-border) !important; background: var(--prose-pre-bg) !important; }
+
+      /* Transitions for smooth theme switch */
+      .site-card, a, button, p, h1, h2, h3, time, span { transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease; }
+    </style>
+    <script is:inline>
+      (function() {
+        const saved = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', saved);
+      })();
+    </script>
   </head>
-  <body class="min-h-screen bg-white text-gray-900">
-    <header class="border-b border-gray-100 py-6">
-      <div class="max-w-2xl mx-auto px-6 flex items-center justify-between">
-        <a href="/" class="text-lg font-semibold tracking-tight hover:text-gray-600 transition-colors">
-          things i thought about
-        </a>
-        <nav class="flex gap-6 text-sm text-gray-500">
-          <a href="/" class="hover:text-gray-900 transition-colors">posts</a>
-          <a href="/about" class="hover:text-gray-900 transition-colors">about</a>
-        </nav>
-      </div>
-    </header>
+  <body class="min-h-screen flex flex-col items-center p-3 sm:p-6 lg:p-10">
 
-    <main class="max-w-2xl mx-auto px-6 py-12">
-      <slot />
-    </main>
+    <div class="site-card w-full max-w-[680px] flex-1 flex flex-col rounded-2xl overflow-hidden">
 
-    <footer class="border-t border-gray-100 py-8 mt-16">
-      <div class="max-w-2xl mx-auto px-6 text-sm text-gray-400 text-center">
-        © {new Date().getFullYear()} JP
-      </div>
-    </footer>
+      <header class="site-header-border px-7 sm:px-10 py-6 shrink-0">
+        <div class="flex items-center justify-between">
+          <a href="/" class="brand text-[16px] sm:text-[17px] font-medium tracking-tight no-underline">
+            things i thought about
+          </a>
+          <div class="flex items-center gap-5">
+            <nav class="flex gap-5 text-[13px] sm:text-[14px]">
+              <a href="/" class="nav-link no-underline">posts</a>
+              <a href="/about" class="nav-link no-underline">about</a>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+              <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/>
+                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
+                <line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/>
+                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
+              </svg>
+              <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="flex-1 px-7 sm:px-10 py-10 sm:py-14">
+        <slot />
+      </main>
+
+      <footer class="site-footer-border shrink-0 py-6 px-7 sm:px-10">
+        <p class="footer-text text-[12px] sm:text-[13px] text-center tracking-wide m-0">
+          © {new Date().getFullYear()} JP
+        </p>
+      </footer>
+
+    </div>
+
+    <script is:inline>
+      (function() {
+        const btn = document.getElementById('theme-toggle');
+        const sun = document.getElementById('icon-sun');
+        const moon = document.getElementById('icon-moon');
+
+        function applyTheme(theme) {
+          document.documentElement.setAttribute('data-theme', theme);
+          if (theme === 'dark') {
+            sun.style.display = 'block';
+            moon.style.display = 'none';
+          } else {
+            sun.style.display = 'none';
+            moon.style.display = 'block';
+          }
+        }
+
+        const saved = localStorage.getItem('theme') || 'dark';
+        applyTheme(saved);
+
+        btn.addEventListener('click', function() {
+          const current = document.documentElement.getAttribute('data-theme');
+          const next = current === 'dark' ? 'light' : 'dark';
+          localStorage.setItem('theme', next);
+          applyTheme(next);
+        });
+      })();
+    </script>
   </body>
 </html>
