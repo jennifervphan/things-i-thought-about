@@ -5,7 +5,7 @@ pubDate: "2026-06-10"
 tags: ["🍓", "biology-101", "delicious science"]
 ---
 
-Every blog starts with a random thought — could be a question, an idea, a weird feeling. Today it's a random thought about strawberries and why they have this strange inverted triangle shape. Something that just popped up in my head while eating strawberries in the summer.
+Every blog starts with a random thought — could be a question, an idea, a weird feeling. Today it's a random thought about strawberries and why they have this strange heart-ish, pointy-bottomed shape. Something that just popped up in my head while eating strawberries in the summer.
 
 I went looking for an answer (meaning googling and asking AI about it), and now I feel like I have been living a lie (maybe a bit too dramatic), so you have to know about it too.
 
@@ -27,7 +27,7 @@ The two things that matter for the shape are the **receptacle** (the yellowish d
 
 After the flower gets pollinated, the fertilized achenes release a hormone called auxin. This tells the receptacle: *grow, baby, grow*. The good receptacle obliges and starts swelling up dramatically around all the little fruits.
 
-The shape comes from how it grows: more at the top (the wide part, near where it attaches to the stem) and less at the bottom (the pointy tip, which was the center of the flower). Uneven growth, perfect triangle every time.
+The shape comes from how it grows: more at the top (the wide part, near where it attaches to the stem) and less at the bottom (the pointy tip, which was the center of the flower). Uneven growth, perfect upside-down triangle every time.
 
 ## Why aren't they all perfect triangles then
 
@@ -46,8 +46,8 @@ From an evolutionary standpoint, the conical shape is doing a lot of work:
 - The wide surface spreads out hundreds of achenes so they're not competing with each other
 - The whole bright red and easy-to-eat package is basically a billboard that says *eat me and go drop my seeds somewhere else*
 
-The strawberry has been playing animals like fiddles for thousands of years. Including me, right now, as I ate a whole bunch of them while writing this.
+The strawberry is a brilliant engineer who has been playing animals like fiddles for thousands of years. Including me, right now, as I ate a whole bunch of them while writing this.
 
 ---
 
-Anyway. The next time someone says something is "not what it looks like," you can say: "like a strawberry?" and then explain all of this to them unprompted. They will love it (or not, no guarantees).
+Anyway. The next time someone says something is "not what it looks like", you can say: "like a strawberry?" and then explain all of this to them unprompted. They will love it (or not, no guarantees).
